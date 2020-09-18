@@ -37,7 +37,7 @@ module RuboCop
 
         def_node_matcher :nominal_int?, <<~PATTERN
           $(const
-            {(const _ :Types) (const (const _ :Types) _)} :Int)
+            `(const _ :Types) :Int)
         PATTERN
 
         def_node_matcher :module_with_type_definition?, <<~PATTERN
