@@ -8,6 +8,6 @@ DryRbMigration/IncludeDryTypes:
 
 DryRbMigration/MigrateIntToInteger:
   Description: |
-    Migrates from obsolete Types::Int style to newer Types::Intger
+    Migrates from obsolete Types::Int style to newer Types::Integer
   Enabled: false
   VersionAdded: '0.92'
