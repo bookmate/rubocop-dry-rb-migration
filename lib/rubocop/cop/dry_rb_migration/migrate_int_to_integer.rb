@@ -31,24 +31,13 @@ module RuboCop
         extend AutoCorrector
         MSG = 'Replace Int with Integer'
 
-        def_node_search :nominal_int_without_namespace, <<~PATTERN
-          (const _ :Int)
+        def_node_search :nominal_int, <<~PATTERN
+          (const {nil? (const _ {:Strict :Coercible :JSON :Params})} :Int)
         PATTERN
 
-        def_node_search :nominal_int_with_namespace, <<~PATTERN
-          (const
-            (const {:Strict :Coercible :JSON :Params} :Int))
-        PATTERN
-
-        def_node_matcher :nominal_int_without_namespace?, <<~PATTERN
+        def_node_matcher :nominal_int?, <<~PATTERN
           $(const
-            (const _ :Types) :Int)
-        PATTERN
-
-        def_node_matcher :nominal_int_with_namespace?, <<~PATTERN
-          $(const
-            (const
-              (const _ :Types) {:Strict :Coercible :JSON :Params :Nominal}) :Int)
+            {(const _ :Types) (const (const _ :Types) _)} :Int)
         PATTERN
 
         def_node_matcher :module_with_type_definition?, <<~PATTERN
@@ -57,10 +46,7 @@ module RuboCop
         PATTERN
 
         def on_const(node)
-          nominal_int_without_namespace?(node) do |const|
-            match_offense(node, const)
-          end
-          nominal_int_with_namespace?(node) do |const|
+          nominal_int?(node) do |const|
             match_offense(node, const)
           end
         end
@@ -68,12 +54,7 @@ module RuboCop
         def on_module(node)
           return unless module_with_type_definition?(node)
 
-          constants = (
-            nominal_int_without_namespace(node) +
-            nominal_int_with_namespace(node)
-          )
-
-          constants.each do |const|
+          nominal_int(node).each do |const|
             add_offense(const) do |corrector|
               corrector.replace(const.loc.name, "Integer")
             end
