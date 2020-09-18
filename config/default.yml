@@ -5,3 +5,9 @@ DryRbMigration/IncludeDryTypes:
     Replaces old-style `include Dry::Types.module` with `include Dry.Types`
   Enabled: true
   VersionAdded: '0.92'
+
+DryRbMigration/MigrateIntToInteger:
+  Description: |
+    Migrates from obsolete Types::Int style to newer Types::Intger
+  Enabled: false
+  VersionAdded: '0.92'
