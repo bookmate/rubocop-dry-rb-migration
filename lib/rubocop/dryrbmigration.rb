@@ -1,4 +1,5 @@
-require "rubocop/dryrbmigration/version"
+require 'rubocop/dryrbmigration/version'
+require 'yaml'
 
 module RuboCop
   module Dryrbmigration
@@ -11,4 +12,3 @@ module RuboCop
     private_constant(:CONFIG_DEFAULT, :PROJECT_ROOT)
   end
 end
-
